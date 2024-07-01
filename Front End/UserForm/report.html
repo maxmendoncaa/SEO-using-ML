@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Optimization Suggestions</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: linear-gradient(to bottom right, rgb(100, 100, 100), rgb(29, 29, 29));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            color: #FFF;
+            text-align: center;
+        }
+
+        .main-container {
+            text-align: center;
+            max-width: 60ch;
+        }
+
+        h2 {
+            color: #FFF;
+            padding-bottom: 0px;
+            background-image: linear-gradient(35deg, rgb(0, 255, 242), rgb(0, 122, 179));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .suggestion {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .suggestion h3 {
+            text-align: left;
+            color: #FFF;
+            padding-bottom: 0px;
+            background-image: linear-gradient(35deg, rgb(0, 255, 242), rgb(0, 122, 179));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0px;
+            margin-left: 5%;
+        }
+
+        .suggestion p {
+            text-align: left;
+            border-left: 5px solid rgb(0, 122, 179);
+            margin-left: 0;
+            padding: 1rem 0rem 1rem 2rem;
+            white-space: pre-line;
+            font-size: 1rem;
+            color: #FFF;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h2>Website Optimization Suggestions</h2>
+        <div id="suggestionsContainer"></div>
+    </div>
+
+    <script>
+        // Function to fetch data from CSV file
+        async function fetchCSVData() {
+            const response = await fetch('trimmed.csv');
+            const text = await response.text();
+            return text;
+        }
+
+        // Function to extract the SpeedIndex from CSV data
+        function getSpeedIndexFromCSV(csvData) {
+            const rows = csvData.trim().split('\n');
+            const firstWebsiteRow = rows[1].split(',');
+            return parseFloat(firstWebsiteRow[4]); // SpeedIndex value (5th column)
+        }
+
+        // Function to find the minimum SpeedIndex from CSV data
+        function getMinimumSpeedIndexFromCSV(csvData) {
+            const rows = csvData.trim().split('\n').slice(1); // Exclude the header row
+            const speedIndexArray = rows.map(row => parseFloat(row.split(',')[4]));
+            return Math.min(...speedIndexArray);
+        }
+
+        // Function to extract the value of a parameter from CSV data
+        function getParameterValueFromCSV(csvData, parameterIndex) {
+            const rows = csvData.trim().split('\n').slice(1); // Exclude the header row
+            const parameterArray = rows.map(row => parseFloat(row.split(',')[parameterIndex]));
+            return Math.min(...parameterArray);
+        }
+
+// Function to generate suggestions for a specific parameter
+function generateParameterSuggestions(parameterTitle, parameterValue, threshold) {
+    const suggestionsContainer = document.getElementById("suggestionsContainer");
+
+    const performanceText = parameterValue > threshold
+        ? `Your website's ${parameterTitle} is below the recommended threshold. Please follow these instructions to optimize it:`
+        : `Your website's ${parameterTitle} is performing well! No major optimizations needed.`;
+
+    const performanceTextElement = document.createElement("p");
+    performanceTextElement.textContent = performanceText;
+    suggestionsContainer.appendChild(performanceTextElement);
+
+    // Suggestions based on the parameter threshold
+    const suggestions = parameterValue > threshold ? [
+        {
+            title: "Optimize and compress images to reduce their size.",
+            description: `1. Reduce image file size without sacrificing quality by compressing and resizing images.
+2. Choose appropriate image formats (e.g., JPEG, PNG, or WebP) based on image content and requirements.
+3. Use modern image formats like WebP for better compression and smaller file sizes.
+4. Implement lazy loading for images that are not immediately visible to speed up page load.`
+        },
+        {
+            title: "Minimize render-blocking resources like CSS and JavaScript.",
+            description: `1. Minimize the usage of JavaScript and make it more efficient.
+2. Use asynchronous loading for non-essential scripts.
+3. Prioritize visible content loading before loading other resources.`
+        },
+        {
+            title: "Optimize and compress large images and videos on the page.",
+            description: `1. Optimize and compress large images and videos on the page.
+2. Use lazy loading for images and other media elements below the fold.
+3. Ensure that critical CSS and JavaScript are delivered quickly.`
+        },
+        {
+            title: "Optimize and compress images, especially above-the-fold images.",
+            description: `1. Optimize and compress images, especially above-the-fold images.
+2. Minimize the usage of large, render-blocking scripts.
+3. Optimize server response time and reduce server-rendered pages.`
+        },
+        {
+            title: "Use proper dimensions for media elements to prevent layout shifts.",
+            description: `1. Use proper dimensions for media elements to prevent layout shifts.
+2. Reserve space for ads and dynamic content to avoid sudden layout changes.
+3. Use CSS animations and transitions with caution to prevent layout shifts.`
+        },
+        {
+            title: "Optimize critical CSS and inline it in the head of the document.",
+            description: `1. Optimize critical CSS and inline it in the head of the document.
+2. Reduce server response time to start rendering meaningful content quickly.
+3. Prioritize loading of essential above-the-fold content.`
+        },
+        {
+            title: "Minimize and optimize JavaScript execution time.",
+            description: `1. Minimize and optimize JavaScript execution time.
+2. Identify and remove any non-essential third-party scripts.
+3. Use browser cache and resource compression to speed up loading times.`
+        },
+        {
+            title: "Optimize and minimize JavaScript to reduce its execution time.",
+            description: `1. Optimize and minimize JavaScript to reduce its execution time.
+2. Use a browser cache to store reusable data.
+3. Consider code splitting to load only necessary JavaScript on specific pages.`
+        }
+        // Add more suggestions for parameter above the threshold
+    ] : [
+        {
+            title: "Everything looks good and well optimized!",
+            description: `Your website's ${parameterTitle} is above the threshold, and everything looks good. Keep up the great work!`
+        }
+    ];
+
+    suggestions.forEach((suggestion) => {
+        const suggestionElement = document.createElement("div");
+        suggestionElement.classList.add("suggestion");
+
+        const titleElement = document.createElement("h3");
+        titleElement.textContent = suggestion.title;
+
+        const descriptionElement = document.createElement("p");
+        descriptionElement.textContent = suggestion.description;
+
+        suggestionElement.appendChild(titleElement);
+        suggestionElement.appendChild(descriptionElement);
+
+        suggestionsContainer.appendChild(suggestionElement);
+    });
+}
+
+
+        // Function to generate suggestions for all parameters
+        async function generateSuggestions() {
+            const suggestionsContainer = document.getElementById("suggestionsContainer");
+
+            // Fetch data from the CSV file
+            const csvData = await fetchCSVData();
+
+            // Extract parameter values from CSV data
+            const parameterTitles = [
+                "First Contentful Paint",
+                "First Interactive",
+                "Largest Contentful Paint",
+                "Speed Index",
+                "Cumulative Layout Shift",
+                "First Meaningful Paint",
+                "Total Blocking Time",
+                "Max Potential FID"
+            ];
+            const parameterValues = parameterTitles.map((title, index) => {
+                return {
+                    title: title,
+                    value: getParameterValueFromCSV(csvData, index + 1), // Index + 1 to skip the URL column
+                };
+            });
+
+            // Generate suggestions for each parameter
+            parameterValues.forEach(({ title, value }) => {
+                const threshold = getMinimumSpeedIndexFromCSV(csvData); // Use the minimum SpeedIndex as the threshold
+                generateParameterSuggestions(title, value, threshold);
+            });
+        }
+
+        // Call the function to generate suggestions on page load
+        window.onload = generateSuggestions;
+    </script>
+</body>
+</html>

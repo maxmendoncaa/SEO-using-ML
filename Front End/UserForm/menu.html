@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <style>
+        body {
+            background-image: linear-gradient(
+                to right,
+                rgb(0, 255, 242),
+                rgb(0, 122, 179)
+            );
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                to bottom right,
+                #646464,
+                #1d1d1d
+            );
+            padding: 50px;
+            border-radius: 10px;
+            width: 40%;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button {
+            background: transparent;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 20px 0;
+            padding: 10px 30px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+
+        button:hover,
+        button:active {
+            background: transparent;
+            border: 2px solid transparent;
+            border-image: linear-gradient(
+                    to right,
+                    #00fff2,
+                    #007ab3
+                )
+                1;
+            transition: all 0.2s ease-in-out;
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-size: 2em;
+            color: #fff;
+            margin: 0;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            color: #fff;
+        }
+
+        .logo {
+            width: 50vh;
+            vertical-align: middle;
+            margin: 0 -50px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <h1>Welcome to <img src="SEO INSIGHTS.png" alt="SEO LOGO" class="logo"></h1>
+    <p>Click one of the buttons below:</p>
+    <button id="edit-links-btn">1 - Edit Links</button>
+    <button id="run-api-btn">2 - Run API</button>
+    <button id="generate-insights-btn" onclick="fetchData()">3 - Generate Insights</button>
+    <!-- <p id="grading-output"></p> Add a new <p> tag to display the output -->
+</section>
+
+<script>
+    const editLinksBtn = document.getElementById('edit-links-btn');
+  const runApiBtn = document.getElementById('run-api-btn');
+  const generateInsightsBtn = document.getElementById('generate-insights-btn');
+
+  editLinksBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
+    alert("Please refresh the form page before editing for changes to take effect.");
+  });
+
+  runApiBtn.addEventListener('click', () => {
+    // Implement code to run the API when button is clicked
+    alert("Redirecting to Run Menu");
+  });
+
+  generateInsightsBtn.addEventListener('click', () => {
+    // Implement code to generate insights when button is clicked
+    alert("Insights have been generated!");
+  });
+
+    const button = document.getElementById('generate-insights-btn');
+    button.addEventListener('click', () => {
+    window.open('graph.html', '_blank');
+    });
+
+    const button1 = document.getElementById('run-api-btn');
+    button1.addEventListener('click', () => {
+    window.open('Run-API-button/templates/index.html', '_blank');
+    });
+
+    function fetchData() {
+        fetch('http://localhost:5000/get_list')
+            .then(response => response.json())
+            .then(data => {
+                let pythonList = data; // Get the pythonList array
+                console.log(data[0]);
+                let bestWebsitesArray = pythonList[0]; // Access the first array (best websites)
+                let worstWebsitesArray = pythonList[1]; // Access the second array (worst websites)
+
+                // Extract the website names (URLs) from the first element of each array
+                let bestWebsiteName = bestWebsitesArray[0];
+                bestWebsiteName = bestWebsiteName[0];
+                let worstWebsiteName = worstWebsitesArray[0];
+                worstWebsiteName = worstWebsiteName[0];
+                let pythonList2 = data[1];
+                let gradingOutput = data[2];
+                console.log('List from Python:', pythonList[0]);
+                console.log('List from Python:', pythonList, pythonList2);
+                console.log('Grading Output from Python:', gradingOutput);
+                console.log('Best Websites Array:', bestWebsitesArray);
+                console.log('Worst Websites Array:', worstWebsitesArray);
+
+            // Store the lists and gradingOutput in local storage
+            // (You can keep the same code for storing in localStorage as before)
+            localStorage.setItem('pythonList', JSON.stringify(pythonList));
+            localStorage.setItem('bestWebsitesArray', JSON.stringify(bestWebsitesArray));
+            localStorage.setItem('worstWebsitesArray', JSON.stringify(worstWebsitesArray));
+            localStorage.setItem('bestWebsiteName', bestWebsiteName);
+            localStorage.setItem('worstWebsiteName', worstWebsiteName);
+            localStorage.setItem('gradingOutput', gradingOutput);
+        });
+}
+
+</script>
+</body>
+</html>

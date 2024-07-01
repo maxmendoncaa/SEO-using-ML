@@ -1,0 +1,5 @@
+URL, First Contentful Paint, First Interactive, Largest Contentful Paint, Speed Index, Cumulative Layout Shift, Fisrt Meaningful Paint, Total Blocking Time, Max Potential FID
+https://aitdgoa.edu.in/,1.6 s,3.1 s,2.9 s,5.6 s,0.418,1.8 s,0.38,0.29
+https://ritgoa.ac.in/,19.4 s,60.6 s,52.0 s,36.1 s,0.504,19.4 s,0.11,0.11
+https://gpp.goa.gov.in/,7.2 s,12.3 s,13.6 s,10.7 s,0.028,7.2 s,0.17,0.2
+https://www.bits-pilani.ac.in/,4.9 s,4.9 s,10.4 s,6.5 s,0,4.9 s,0.0,0.03

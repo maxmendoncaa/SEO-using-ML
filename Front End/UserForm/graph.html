@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="responsive.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.1.1/chartjs-plugin-zoom.min.js"></script>
+  <style>
+    /* Add your styles here */
+    #container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 80vh;
+    }
+
+    #bar-chart,
+    #pie-chart {
+      width: 40%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logosec">
+      <div class="logo"><img src="SEO INSIGHTS.png" alt="SEO LOGO" width="250vh"></div>
+      <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png" class="icn menuicn" id="menuicn" alt="menu-icon">
+    </div>
+
+    <div class="searchbar">
+      <input type="text" placeholder="Search">
+      <div class="searchbtn">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/search--v1.png" class="icn srchicn" alt="search-icon">
+      </div>
+    </div>
+
+    <div class="message">
+      <div class="circle"></div>
+      <img src="https://img.icons8.com/ios-glyphs/30/ffffff/appointment-reminders--v2.png" class="icn" alt="">
+      <div class="dp">
+        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png" class="dpicn" alt="dp">
+      </div>
+    </div>
+
+  </header>
+
+  <div class="main-container">
+    <div class="navcontainer">
+      <nav class="nav">
+        <div class="nav-upper-options">
+          <div class="nav-option option1">
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png" class="nav-img" alt="dashboard">
+            <h3> Dashboard</h3>
+          </div>
+
+          <a href="template.html">
+            <div class="option2 nav-option">
+              <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png" class="nav-img" alt="articles">
+              <h3> Insights</h3>
+            </div>
+          </a>
+
+
+          <a href="report.html">
+            <div class="nav-option option3">
+              <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png" class="nav-img" alt="report">
+              <h3> Report</h3>
+            </div>
+          </a>
+
+          <!-- <div class="nav-option option4">
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png" class="nav-img" alt="institution">
+            <h3> Institution</h3>
+          </div> -->
+
+          <div class="nav-option option5">
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png" class="nav-img" alt="blog">
+            <h3> Profile</h3>
+          </div>
+
+          <div class="nav-option option6">
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png" class="nav-img" alt="settings">
+            <h3> Settings</h3>
+          </div>
+
+          <div class="nav-option logout">
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png" class="nav-img" alt="logout">
+            <h3>Logout</h3>
+          </div>
+
+        </div>
+      </nav>
+    </div>
+    <div class="main">
+      <div id="container">
+        <div id="bar-chart">
+          <canvas id="bar-chart-canvas"></canvas>
+        </div>
+        <div id="pie-chart">
+          <canvas id="pie-chart-canvas"></canvas>
+          <div class="chart-label" id="overall-performance-label">Overall Performance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // Function to read CSV data
+    function readCSV(file, callback) {
+      var rawFile = new XMLHttpRequest();
+      rawFile.open("GET", file, true);
+      rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status === 200) {
+          var allText = rawFile.responseText;
+          callback(allText);
+        }
+      };
+      rawFile.send(null);
+    }
+
+    // Create a variable for the barChart
+    var barChart;
+    // Create a variable for the pieChart
+    var pieChart;
+
+    // Parse CSV data and update charts
+    function updateCharts(csvData) {
+      var lines = csvData.split("\n");
+      var labels = [];
+      var datasets = [
+        {
+          label: "FirstContentfulPaint",
+          backgroundColor: "#4286f4",
+          data: [],
+        },
+        {
+          label: "FirstInteractive",
+          backgroundColor: "#42f4a1",
+          data: [],
+        },
+        {
+          label: "LargestContentfulPaint",
+          backgroundColor: "#d14343",
+          data: [],
+        },
+        {
+          label: "SpeedIndex",
+          backgroundColor: "#d1ab43",
+          data: [],
+        },
+        {
+          label: "CumulativeLayoutShift",
+          backgroundColor: "#288c34",
+          data: [],
+        },
+        {
+          label: "FirstMeaningfulPaint",
+          backgroundColor: "#1140a7",
+          data: [],
+        },
+        {
+          label: "TotalBlockingTime",
+          backgroundColor: "#6911a7",
+          data: [],
+        },
+        {
+          label: "MaxPotentialFID",
+          backgroundColor: "#a71166",
+          data: [],
+        },
+      ];
+
+      for (var i = 1; i < lines.length; i++) {
+        var data = lines[i].split(",");
+        if (data.length === 9) {
+          labels.push(data[0].trim());
+          for (var j = 1; j < data.length; j++) {
+            datasets[j - 1].data.push(parseFloat(data[j].trim()));
+          }
+        }
+      }
+
+      // Data for the bar chart
+      var barChartData = {
+        labels: labels,
+        datasets: datasets,
+      };
+
+      // Options for the bar chart
+      var barChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          zoom: {
+            zoom: {
+              enabled: true,
+              mode: 'xy',
+              speed: 0.05,
+            },
+            pan: {
+              enabled: true,
+              mode: 'xy',
+              speed: 0.05,
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time in Seconds', // Y-axis label
+              fontStyle: 'bold', // Make the label string bold
+            },
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "User Website vs. Competitor's Websites", // X-axis label
+              fontStyle: 'bold', // Make the label string bold
+            }
+          }]
+        }
+      };
+
+      // Create the bar chart
+      var barChartCanvas = document.getElementById("bar-chart-canvas").getContext("2d");
+      barChart = new Chart(barChartCanvas, {
+        type: "bar",
+        data: barChartData,
+        options: barChartOptions,
+      });
+
+      // Data for the pie chart
+      var pieChartData = {
+        labels: labels,
+        datasets: [{
+          data: datasets[3].data, // SpeedIndex data
+          backgroundColor: [
+            "#4286f4", "#42f4a1", "#d14343", "#d1ab43", "#288c34", "#1140a7", "#6911a7", "#a71166"
+          ],
+        }],
+      };
+
+      // Options for the pie chart
+      var pieChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          zoom: {
+            zoom: {
+              enabled: true,
+              mode: 'xy',
+              speed: 0.05,
+            },
+            pan: {
+              enabled: true,
+              mode: 'xy',
+              speed: 0.05,
+            }
+          }
+        },
+      };
+
+      // Create the pie chart
+      var pieChartCanvas = document.getElementById("pie-chart-canvas").getContext("2d");
+      pieChart = new Chart(pieChartCanvas, {
+        type: "pie",
+        data: pieChartData,
+        options: pieChartOptions,
+      });
+
+      // Add an overall performance label below the pie chart
+      var overallPerformanceLabel = document.getElementById("overall-performance-label");
+      overallPerformanceLabel.style.textAlign = "center";
+      overallPerformanceLabel.style.marginTop = "0px";
+      overallPerformanceLabel.style.fontWeight = "bold";
+      overallPerformanceLabel.style.fontSize = "14px";
+      overallPerformanceLabel.innerText = "Overall Performance: Lower is faster";
+    }
+
+    // Read data from CSV file
+    readCSV("trimmed.csv", function(csvData) {
+      updateCharts(csvData);
+    });
+
+  </script>
+</body>
+
+</html>

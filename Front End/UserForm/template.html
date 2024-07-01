@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: linear-gradient(to bottom right, rgb(100, 100, 100), rgb(29, 29, 29));
+            display: grid;
+            place-items: center; /* Center all content on the page */
+            min-height: 100vh;
+            width: min(60ch, 100vw - 2rem);
+            margin-right: auto;
+            margin-left: auto;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            color: #FFF;
+        }
+
+        h5 {
+            text-align: left;
+            color: #FFF;
+            padding-bottom: 0px;
+            background-image: linear-gradient(35deg, rgb(0, 255, 242), rgb(0, 122, 179));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0px;
+            margin-left: 5%;
+            padding-right: 20px;
+        }
+
+        p {
+            text-align: left; /* Set text alignment to left */
+            border-left: 5px solid var(--color-primary); /* Use custom variable */
+            margin-left: 0;
+            padding: 1rem 0rem 1rem 2rem;
+            font-size: 1rem;
+            color: #FFF;
+        }
+
+        pre {
+            text-align: left;
+            color: #FFF;
+            padding-bottom: 0px;
+            background-image: linear-gradient(35deg, rgb(0, 255, 242), rgb(0, 122, 179));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0px;
+            font-family: 'Poppins', sans-serif;
+            padding-right: 20px;
+        }
+
+        /* Floating card styles */
+        .card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+
+        /* Add some spacing between cards */
+        .card + .card {
+            margin-top: 10px;
+        }
+
+        /* Add some styling for the container around the cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Divide the container into two columns */
+            gap: 20px; /* Add some gap between the columns */
+        }
+
+        /* Add some styling for the card container divs */
+        .left-column {
+            grid-column: 1; /* Place left-column content in the first column */
+        }
+
+        .right-column {
+            grid-column: 2; /* Place right-column content in the second column */
+        }
+
+        /* Shift the grading output card to the bottom left */
+        .grading-output {
+            grid-column: 1; /* Place grading output card in the first column */
+            grid-row: 3; /* Place grading output card in the third row */
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="left-column">
+            <div class="card">
+                <h5>Best Website (seconds):</h5>
+                <p id="bestWebsites"></p> <!-- Change the ID to bestWebsites -->
+            </div>
+
+            <div class="card">
+                <h5>Worst Website (seconds):</h5>
+                <p id="worstWebsites"></p> <!-- Change the ID to worstWebsites -->
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="card">
+                <h5><pre>Grading Output of your website
+compared to competitor's Websites:</pre></h5>
+                <p id="gradingOutput"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve the bestWebsiteName and worstWebsiteName from local storage
+        const bestWebsiteName = localStorage.getItem('bestWebsiteName');
+        const worstWebsiteName = localStorage.getItem('worstWebsiteName');
+
+        // Get references to the paragraphs in the HTML
+        const bestWebsiteElement = document.getElementById('bestWebsites'); // Change the ID to bestWebsites
+        const worstWebsiteElement = document.getElementById('worstWebsites'); // Change the ID to worstWebsites
+
+        // Set the text content of the paragraphs to display the website names
+        bestWebsiteElement.innerText = `Best Website: ${bestWebsiteName}`;
+        worstWebsiteElement.innerText = `Worst Website: ${worstWebsiteName}`;
+
+        // Retrieve the gradingOutput from local storage
+        const gradingOutput = localStorage.getItem('gradingOutput');
+
+        // Get reference to the gradingOutput paragraph in the HTML
+        const gradingOutputElement = document.getElementById('gradingOutput');
+
+        // Set the text content of the gradingOutput paragraph
+        gradingOutputElement.innerText = gradingOutput;
+    </script>
+</body>
+</html>

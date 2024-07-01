@@ -1,0 +1,5 @@
+URL,FirstContentfulPaint,FirstInteractive,LargestContentfulPaint,SpeedIndex,CumulativeLayoutShift,FisrtMeaningfulPaint,TotalBlockingTime,MaxPotentialFID
+aitdgoa.edu.in,1.6,3.1,2.9,5.6,0.418,1.8,0.38,0.29
+ritgoa.ac.in,19.4,60.6,52.0,36.1,0.504,19.4,0.11,0.11
+gpp.goa.gov.in,7.2,12.3,13.6,10.7,0.028,7.2,0.17,0.2
+www.bits-pilani.ac.in,4.9,4.9,10.4,6.5,0,4.9,0.0,0.03

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /> -->
+  <title>User Form</title>
+</head>
+<body onload="restoreForm()">
+  <form method="post" action="save_links.php" id="user_form">
+    <header>
+      <img src="SEO INSIGHTS.png" alt="seo logo" width="400px">
+    </header>
+    <div>
+      <label>Enter Your Site Link:</label> <br>
+      <br>
+      <input type="url" name="site_link" placeholder="" id="site_link"> <br>
+      <br>
+      <div id="competitor-links">
+      </div>
+    </div>
+    <button type="button" onclick="addLink()">Add Competitor Link</button>
+    <button type="submit" onClick="showSuccess()">Submit</button>
+    <button type="button" id="clear_form">Clear Form</button>
+  </form>
+<script src="index.js"></script>
+</body>
+</html>
